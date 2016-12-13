@@ -17,7 +17,7 @@ def test_multiple():
 def test_exact():
     """Test if a string that is an exact multiple of buffer length echoes."""
     from client import client
-    assert client(u'exactlyoneexactlytwo') == u'exactlyoneexactlytwo'
+    assert client(u'exactlyoneexactly') == u'exactlyoneexactly'
 
 
 def test_nonascii():

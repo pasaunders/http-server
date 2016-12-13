@@ -17,7 +17,7 @@ setup(
     extras_require={'test': ['pytest', 'pytest-watch', 'pytest-cov', 'tox']},
     entry_points={
         'console_scripts': [
-            "echo_server = server:main",
+            "echo_server = run_server:main",
             "echo_client = client:main"
         ]
     }
