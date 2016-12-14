@@ -23,22 +23,24 @@
 # def test_nonascii():
 #     """Test if a string of non-ascii characters echoes."""
 #     from client import client
-#     assert client(u'ΞΞΞΞΞΞΞ') == u'ΞΞΞΞΞΞΞ'
+#     assert client(u'') == u''
 
 
 def test_ok():
     """Test that the server returns 200 OK."""
     from server import response_ok
-    assert response_ok() == 'HTTP/1.1 200 OK<CRLF>'
+    assert response_ok() == 'HTTP/1.1 200 OK\r\n\r\n'
 
 
 def test_error():
     """Test that the server retruns 500 on error."""
     from server import response_error
-    assert response_error() == 'HTTP/1.1 500 Internal Server Error<CRLF>'
+    assert response_error() == 'HTTP/1.1 500 Internal Server Error\r\n'
 
 
 def test_final():
     """Test that sending a message from client returns messge & header."""
     from client import client
-    assert client('these are words') == 'HTTP/1.1 200 OK\n\rthes are words'
+    response = client('these are words')
+    print('response: ', response)
+    assert response == 'HTTP/1.1 200 OK\r\n\r\nthese are words'

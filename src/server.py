@@ -9,7 +9,7 @@ def server():
         socket.AF_INET,
         socket.SOCK_STREAM,
         socket.IPPROTO_TCP)
-    address = ('127.0.0.1', 5001)
+    address = ('127.0.0.1', 5353)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
     server.bind(address)
@@ -26,14 +26,14 @@ def server():
             while total_message.count("\r\n\r\n") != 2:
                 part = conn.recv(buffer_length)
                 total_message += part.decode('utf8')
-            total_message = "\r\n\r\n".split(total_message)
+            total_message = total_message.split("\r\n\r\n")
             # header = total_message[0]
             msg_body = total_message[1]
-            print(msg_body)
             try:
-                final_message = response_ok() + total_message
+                final_message = response_ok() + "".join(msg_body)
+                print(final_message, type(final_message))
                 conn.sendall(final_message.encode('utf8'))
-            except:
+            except :
                 conn.sendall(response_error().encode('utf8'))
 
         except KeyboardInterrupt:
@@ -44,12 +44,12 @@ def server():
 
 def response_ok():
     """Send back a 200 code for OK."""
-    return "HTTP/1.1 200 OK\n\r"
+    return "HTTP/1.1 200 OK\r\n\r\n"
 
 
 def response_error():
     """Send back a 500 code internal server error."""
-    return "HTTP/1.1 500 Internal Server Error\n\r"
+    return "HTTP/1.1 500 Internal Server Error\r\n"
 
 
 server()
