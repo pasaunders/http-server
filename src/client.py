@@ -1,6 +1,5 @@
-"""Something client-y."""
+"""Create a client to interact with a server at localhost:5353."""
 
-import sys
 import socket
 
 
@@ -12,7 +11,6 @@ def client(message):
     stream_info = [i for i in infos if i[1] == socket.SOCK_STREAM][0]
     client = socket.socket(*stream_info[:3])
     client.connect(stream_info[-1])
-
     client.sendall(send_msg.encode('utf8'))
     reply = ""
     buffer_length = 1024
