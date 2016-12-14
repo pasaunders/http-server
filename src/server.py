@@ -5,7 +5,10 @@ import socket
 
 def server():
     """Start a server at localhost:9999."""
-    server = socket.socket( socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP)
+    server = socket.socket(
+        socket.AF_INET,
+        socket.SOCK_STREAM,
+        socket.IPPROTO_TCP)
     address = ('127.0.0.1', 5001)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
@@ -13,22 +16,20 @@ def server():
 
     server.listen(1)
 
-
-def response_ok()
     while True:
 
-    conn, addr = server.accept()
+        conn, addr = server.accept()
 
         try:
             total_message = ""
             buffer_length = 1024
             part = conn.recv(buffer_length)
-            message += part.decode('utf8')
-            conn.sendall(message.encode('utf8'))
+            total_message += part.decode('utf8')
+            conn.sendall(total_message.encode('utf8'))
 
-            total_message = "\r\n\r\n".split(message)
+            total_message = "\r\n\r\n".split(total_message)
 
-            crlf_tally == 0
+            crlf_tally = 0
             if total_message.count("\r\n\r\n") == 2:
                 header = total_message[0]
                 msg_body = total_message[1]
@@ -41,7 +42,6 @@ def response_ok()
     server.close()
 
 def response_ok():
-    if message
-
+    pass
 
 server()
