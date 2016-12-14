@@ -13,20 +13,35 @@ def server():
 
     server.listen(1)
 
+
+def response_ok()
     while True:
 
-        conn, addr = server.accept()
+    conn, addr = server.accept()
 
         try:
-            message = ""
-            buffer_length = 10
-            while message[-3:] != 'EOF':
-                part = conn.recv(buffer_length)
-                message += part.decode('utf8')
+            total_message = ""
+            buffer_length = 1024
+            part = conn.recv(buffer_length)
+            message += part.decode('utf8')
             conn.sendall(message.encode('utf8'))
+
+            total_message = "\r\n\r\n".split(message)
+
+            crlf_tally == 0
+            if total_message.count("\r\n\r\n") == 2:
+                header = total_message[0]
+                msg_body = total_message[1]
+
+            print(msg_body)
+
         except KeyboardInterrupt:
             break
     conn.close()
     server.close()
+
+def response_ok():
+    if message
+
 
 server()
