@@ -33,15 +33,24 @@ def server():
             if total_message.count("\r\n\r\n") == 2:
                 header = total_message[0]
                 msg_body = total_message[1]
+                print(msg_body)
 
-            print(msg_body)
+            response_ok()
 
         except KeyboardInterrupt:
             break
     conn.close()
     server.close()
 
+
 def response_ok():
-    pass
+    """Send back a 200 code for OK."""
+    return "HTTP/1.1 200 OK\n\r"
+
+
+def response_error():
+    """Send back a 500 code internal server error."""
+    return "HTTP/1.1 500 Internal Server Error\n\r"
+
 
 server()
