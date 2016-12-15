@@ -23,8 +23,11 @@ def server():
                 part = conn.recv(buffer_length)
                 total_message += part.decode('utf8')
             try:
-                final_message = response_ok() + "".join(msg_body)
+                parsed = parse_request(total_message)
+                final_message = parsed[0]
                 print(final_message, type(final_message))
+                if parsed[1] is not None:
+                    print(parsed[1])
                 conn.sendall(final_message.encode('utf8'))
             except:
                 conn.sendall(response_error().encode('utf8'))
@@ -35,24 +38,26 @@ def server():
     server.close()
 
 
-# def parse_request(total_message):
-#     """Parse user reqest, return error or request URI."""
-#         total_message = total_message.split("\r\n\r\n")
-#         msg_head = total_message[0]
-#         msg_body = total_message[1]
-#         try:
-#             if 'GET' not in msg_head:
-#                 raise ValueError
-#             elif 'HTTP/1.1' not in msg_head:
-#                 raise ValueError
-#             elif  'www.example.com' not in msg_head:
-#                 raise ValueError
-#             elif  'GET /index.html HTTP/1.1\r\nHost: www.example.com' not in msg_head:
-#                 raise ValueError
-#         except ValueError:
-#             return 'improperly'
-#         else
-#             return
+def parse_request(total_message):
+    """Parse user reqest, return error or request URI."""
+    total_message = total_message.split("\r\n\r\n")
+    msg_head = total_message[0]
+    request_bits = msg_head.split()
+    try:
+        if request_bits[0] is not 'GET':
+            raise ValueError
+        elif request_bits[1] is not '/index.html':
+            raise ValueError
+        elif request_bits[2] is not 'HTTP/1.1':
+            raise ValueError
+        elif request_bits[4] is not 'www.example.com':
+            raise ValueError
+        elif 'GET /index.html HTTP/1.1\r\nHost: www.example.com\r\n' not in msg_head:
+            raise ValueError
+    except ValueError:
+        return [response_error(ValueError, 'Improper header recieved.')]
+    else:
+        return [response_ok(), request_bits[4]]
 
 
 def response_ok():
@@ -60,9 +65,10 @@ def response_ok():
     return "HTTP/1.1 200 OK\r\n\r\n"
 
 
-def response_error():
+def response_error(error_type, error_message):
     """Send back a 500 code internal server error."""
-    return "HTTP/1.1 500 Internal Server Error\r\n"
+    if error_type is ValueError:
+        return "HTTP/1.1 500 Internal Server Error\r\n"
 
 
 server()
