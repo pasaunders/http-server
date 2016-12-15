@@ -35,7 +35,7 @@ def test_ok():
 def test_error():
     """Test that the server retruns 500 on error."""
     from server import response_error
-    assert response_error() == 'HTTP/1.1 500 Internal Server Error\r\n'
+    assert response_error(ValueError, "Something happened.") == 'HTTP/1.1 500 Internal Server Error\r\n'
 
 
 def test_final():
@@ -43,4 +43,10 @@ def test_final():
     from client import client
     response = client('these are words')
     print('response: ', response)
-    assert response == 'HTTP/1.1 200 OK\r\n\r\nthese are words'
+    assert response == 'HTTP/1.1 200 OK\r\n\r\n'
+
+
+def test_sending_put_fails():
+    """Test that server doesn't take PUT request."""
+    from client import client
+    assert client("PUT /index.html HTTP/1.1\r\nHost: www.example.com\r\n") == "HTTP/1.1 500 Internal Server Error\r\n"

@@ -9,7 +9,7 @@ def server():
         socket.AF_INET,
         socket.SOCK_STREAM,
         socket.IPPROTO_TCP)
-    address = ('127.0.0.1', 5353)
+    address = ('127.0.0.1', 5354)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.bind(address)
     server.listen(1)
@@ -22,15 +22,13 @@ def server():
             while total_message.count("\r\n\r\n") != 2:
                 part = conn.recv(buffer_length)
                 total_message += part.decode('utf8')
-            try:
-                parsed = parse_request(total_message)
-                final_message = parsed[0]
-                print(final_message, type(final_message))
-                if parsed[1] is not None:
-                    print(parsed[1])
-                conn.sendall(final_message.encode('utf8'))
-            except:
-                conn.sendall(response_error().encode('utf8'))
+            parsed = parse_request(total_message)
+            print(parsed)
+            final_message = parsed[0]
+            print(final_message, type(final_message))
+            if len(parsed) > 1:
+                print(parsed[1])
+            conn.sendall(final_message.encode('utf8'))
         except KeyboardInterrupt:
             break
     conn.close()
@@ -70,5 +68,3 @@ def response_error(error_type, error_message):
     if error_type is ValueError:
         return "HTTP/1.1 500 Internal Server Error\r\n"
 
-
-server()
