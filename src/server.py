@@ -41,16 +41,25 @@ def parse_request(total_message):
     total_message = total_message.split("\r\n\r\n")
     msg_head = total_message[0]
     request_bits = msg_head.split()
+    print(request_bits[0])
+    print('GET')
+    print(request_bits[0] == 'GET')
+    print('request bits: ', request_bits)
     try:
-        if request_bits[0] is not 'GET':
+        if request_bits[0] != 'GET':
+            print('request is wrong: ', request_bits[0])
             raise ValueError
-        elif request_bits[1] is not '/index.html':
+        elif request_bits[1] != '/index.html':
+            print('path is wrong:', request_bits[1])
             raise ValueError
-        elif request_bits[2] is not 'HTTP/1.1':
+        elif request_bits[2] != 'HTTP/1.1':
+            print('HTTP version is wrong: ', request_bits[2])
             raise ValueError
-        elif request_bits[4] is not 'www.example.com':
+        elif request_bits[4] != 'www.example.com':
+            print('URI is wrong: ', request_bits[4])
             raise ValueError
-        elif 'GET /index.html HTTP/1.1\r\nHost: www.example.com\r\n' not in msg_head:
+        elif b'GET /index.html HTTP/1.1\r\nHost: www.example.com\r\n\r\n' != msg_head:
+            print('request_form is wrong')
             raise ValueError
     except ValueError:
         return [response_error(ValueError, 'Improper header recieved.')]
@@ -68,3 +77,5 @@ def response_error(error_type, error_message):
     if error_type is ValueError:
         return "HTTP/1.1 500 Internal Server Error\r\n"
 
+if __name__ == "__main__":
+    server()

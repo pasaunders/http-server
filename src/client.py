@@ -22,3 +22,6 @@ def client(message):
             break
     return reply
     client.close()
+
+if __name__ == "__main__":
+    client('words words words')

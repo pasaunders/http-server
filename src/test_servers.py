@@ -1,5 +1,5 @@
 """Test client and response server."""
-
+# encoding:utf-8
 
 # def test_one():
 #     """Test if a string of less than one buffer echoes."""
