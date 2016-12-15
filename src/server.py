@@ -4,7 +4,7 @@ import socket
 
 
 def server():
-    """Start a server at localhost:5353."""
+    """Start a server at localhost:5354."""
     server = socket.socket(
         socket.AF_INET,
         socket.SOCK_STREAM,
@@ -40,14 +40,19 @@ def parse_request(total_message):
     """Parse user reqest, return error or request URI."""
     total_message = total_message.split("\r\n\r\n")
     msg_head = total_message[0]
+    print('Message head: ', msg_head)
     request_bits = msg_head.split()
     print(request_bits[0])
     print('GET')
     print(request_bits[0] == 'GET')
+    print(request_bits[1] == '/index.html')
+    print(request_bits[2] == 'HTTP/1.1')
+    print(request_bits[4] == 'www.example.com')
     print('request bits: ', request_bits)
     try:
-        if request_bits[0] != 'GET':
-            print('request is wrong: ', request_bits[0])
+        if msg_head == b'GET /index.html HTTP/1.1\r\nHost: www.example.com':
+            return [response_ok(), request_bits[4]]
+        elif request_bits[0] != 'GET':
             raise ValueError
         elif request_bits[1] != '/index.html':
             print('path is wrong:', request_bits[1])
@@ -57,9 +62,6 @@ def parse_request(total_message):
             raise ValueError
         elif request_bits[4] != 'www.example.com':
             print('URI is wrong: ', request_bits[4])
-            raise ValueError
-        elif b'GET /index.html HTTP/1.1\r\nHost: www.example.com\r\n\r\n' != msg_head:
-            print('request_form is wrong')
             raise ValueError
     except ValueError:
         return [response_error(ValueError, 'Improper header recieved.')]

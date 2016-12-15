@@ -49,4 +49,4 @@ def test_final():
 def test_sending_put_fails():
     """Test that server doesn't take PUT request."""
     from client import client
-    assert client("PUT /index.html HTTP/1.1\r\nHost: www.example.com\r\n") == "HTTP/1.1 500 Internal Server Error\r\n"
+    assert client() == "HTTP/1.1 500 Internal Server Error\r\n"
