@@ -2,6 +2,7 @@
 
 import socket
 import os
+import io
 
 
 def server():
@@ -24,12 +25,14 @@ def server():
                 part = conn.recv(buffer_length)
                 total_message += part.decode('utf8')
             parsed = parse_request(total_message)
+            print(parsed[1], type(parsed))
             print(parsed)
-            final_message = parsed[0]
-            print(final_message, type(final_message))
-            if len(parsed) > 1:
-                print(parsed[1])
-            conn.sendall(final_message.encode('utf8'))
+            status_message = parsed[0]
+            print(status_message)
+            print(parsed[1])
+            reply = status_message + parsed[1]
+            conn.sendall(reply.encode('utf8'))
+            # conn.sendall(parsed[1].encode('utf8'))
         except KeyboardInterrupt:
             break
     conn.close()
@@ -41,17 +44,15 @@ def parse_request(total_message):
     """Parse user reqest, return error or request URI."""
     total_message = total_message.split("\r\n\r\n")
     msg_head = total_message[0]
-    print('Message head: ', msg_head)
     request_bits = msg_head.split()
     try:
-        if msg_head == 'GET webroot/ HTTP/1.1\r\nHost: www.example.com':
+        print(msg_head, type(msg_head))
+        if msg_head == 'GET /webroot/ HTTP/1.1\r\nHost: www.example.com':
             uri = request_bits[1]
-            resolve_uri(uri)
-
-            # return [response_ok(), request_bits[4]]
+            return [response_ok(), resolve_uri(uri)]
         if request_bits[0] != 'GET':
             raise ValueError
-        elif request_bits[1] != 'webroot/':
+        elif request_bits[1] != '/webroot/':
             print('path is wrong:', request_bits[1])
             raise ValueError
         elif request_bits[2] != 'HTTP/1.1':
@@ -62,11 +63,6 @@ def parse_request(total_message):
             raise ValueError
     except ValueError:
         return [response_error(ValueError, 'Improper header recieved.')]
-    else:
-        # uri = request_bits[1]
-        # resolve_uri(uri)
-        # return [response_ok(), request_bits[4]]
-        pass
 
 
 def response_ok():
@@ -82,13 +78,33 @@ def response_error(error_type, error_message):
 
 def resolve_uri(uri):
     """Find and return requested resource."""
-    print("ok, func started, if/else next. did it get there?")
-    if uri == 'webroot/':
-        print("are we in this spot?")
-        print(os.listdir('../webroot/'))
+    uri_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', uri[1:])
+    if os.path.isfile(uri_path):
+        return io.open(uri_path)
+    elif os.path.isdir(uri_path):
+        return " ".join(os.listdir(uri_path))
     else:
         pass
 
+
+def return_webpage():
+    webdir = (os.listdir('../webroot'))
+    for i in webdir:
+        html = """
+        <html>
+        <head></head>
+        <body>
+        <h2>Directory listing:</h2>
+        """
+
+    for i in webdir:
+        html += '<li><a href="'  + i + '>' + i + '</a> </li>'
+
+    html += """
+    </body>
+    </http>
+    """
+    print(html)
 
 if __name__ == "__main__":
     server()
