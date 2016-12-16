@@ -37,7 +37,7 @@ def server():
             # conn.sendall(parsed[1].encode('utf8'))
         except KeyboardInterrupt:
             break
-    conn.close()
+        conn.close()
     server.shutdown()
     server.close()
 
