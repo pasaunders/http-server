@@ -2,8 +2,7 @@
 
 import socket
 import os
-# import mimetypes
-
+from __future__ import unicode_literals
 
 def server():
     """Start a server at localhost:5354."""
