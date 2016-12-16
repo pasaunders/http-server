@@ -1,6 +1,7 @@
 """Set up a simple HTTP server."""
 
 import socket
+import os
 
 
 def server():
@@ -42,21 +43,15 @@ def parse_request(total_message):
     msg_head = total_message[0]
     print('Message head: ', msg_head)
     request_bits = msg_head.split()
-    # lines 46-51 for testing
-    print(request_bits[0])
-    print(request_bits[0] == 'GET')
-    print(request_bits[1] == '/index.html')
-    print(request_bits[2] == 'HTTP/1.1')
-    print(request_bits[4] == 'www.example.com')
-    print('request bits: ', request_bits)
     try:
-        if msg_head == b'GET /index.html HTTP/1.1\r\nHost: www.example.com':
+        if msg_head == 'GET webroot/ HTTP/1.1\r\nHost: www.example.com':
             uri = request_bits[1]
             resolve_uri(uri)
-            return [response_ok(), request_bits[4]]
-        elif request_bits[0] != 'GET':
+
+            # return [response_ok(), request_bits[4]]
+        if request_bits[0] != 'GET':
             raise ValueError
-        elif request_bits[1] != '/index.html':
+        elif request_bits[1] != 'webroot/':
             print('path is wrong:', request_bits[1])
             raise ValueError
         elif request_bits[2] != 'HTTP/1.1':
@@ -68,7 +63,10 @@ def parse_request(total_message):
     except ValueError:
         return [response_error(ValueError, 'Improper header recieved.')]
     else:
-        return [response_ok(), request_bits[4]]
+        # uri = request_bits[1]
+        # resolve_uri(uri)
+        # return [response_ok(), request_bits[4]]
+        pass
 
 
 def response_ok():
@@ -84,7 +82,12 @@ def response_error(error_type, error_message):
 
 def resolve_uri(uri):
     """Find and return requested resource."""
-    pass
+    print("ok, func started, if/else next. did it get there?")
+    if uri == 'webroot/':
+        print("are we in this spot?")
+        print(os.listdir('../webroot/'))
+    else:
+        pass
 
 
 if __name__ == "__main__":
