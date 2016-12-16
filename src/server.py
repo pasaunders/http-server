@@ -1,8 +1,8 @@
 """Set up a simple HTTP server."""
 
+from __future__ import unicode_literals
 import socket
 import os
-from __future__ import unicode_literals
 
 def server():
     """Start a server at localhost:5354."""
@@ -21,6 +21,7 @@ def server():
             total_message = ""
             buffer_length = 1024
             while total_message.count("\r\n\r\n") != 2:
+                print(total_message)
                 part = conn.recv(buffer_length)
                 total_message += part.decode('utf8')
             print('Total message: ', total_message)
@@ -33,11 +34,11 @@ def server():
             else:
                 reply = status_message
             conn.sendall(reply.encode('utf8'))
-            # conn.sendall(parsed[1].encode('utf8'))
+            print('we sent response to client.')
+            conn.close()
         except KeyboardInterrupt:
             break
-        conn.close()
-    server.shutdown()
+    server.shutdown(2)
     server.close()
 
 
@@ -58,6 +59,7 @@ def parse_request(total_message):
             raise ValueError
         else:
             uri = request_bits[1]
+            print('this is the uri: ', uri)
             return [response_ok(), resolve_uri(uri)]
     except ValueError:
         return [response_error(ValueError, 'Improper header recieved.')]
