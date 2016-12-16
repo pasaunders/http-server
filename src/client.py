@@ -24,4 +24,4 @@ def client(message):
 
 if __name__ == "__main__":
 
-    client('GET /webroot/ HTTP/1.1\r\nHost: www.example.com\r\n\r\nwords words words')
+    client('GET /webroot/make_time.py HTTP/1.1\r\nHost: www.example.com\r\n\r\nwords words words')
