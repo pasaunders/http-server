@@ -89,10 +89,8 @@ def return_webpage(file_list):
 
 
 if __name__ == "__main__":
-    try:
-        from gevent.server import StreamServer
-        from gevent.monkey import patch_all
-
+    from gevent.server import StreamServer
+    from gevent.monkey import patch_all
     patch_all()
     server = StreamServer(('127.0.0.1', 5678), server)
     print('Starting concurrency server test.')
