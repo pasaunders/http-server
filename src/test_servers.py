@@ -25,6 +25,10 @@
 #     from client import client
 #     assert client(u'') == u''
 
+PARAMS_TABLE = [
+    ['GET sample.txt HTTP/1.1\r\nHost www.example.com', 'This is a very simple text file.\r\nJust to show that we can serve it up.\r\nIt is three lines long.'],
+    ['GET images HTTP/1.1\r\nHost www.example.com', 'HTTP/1.1 200 OK\r\n\r\n<html><a href="JPEG_example.jpg"><a href="sample_1.png"><a href="Sample_Scene_Balls.jpg"></html>'],
+]
 
 def test_ok():
     """Test that the server returns 200 OK."""
@@ -50,3 +54,8 @@ def test_sending_put_fails():
     """Test that server doesn't take PUT request."""
     from client import client
     assert client() == "HTTP/1.1 500 Internal Server Error\r\n"
+
+def test_requested_file_returns():
+    """Test that requested file received on client."""
+    from client import client
+    assert client('GET sample.txt HTTP/1.1\r\nHost www.example.com') == 'This is a very simple text file.\r\nJust to show that we can serve it up.\r\nIt is three lines long.'
