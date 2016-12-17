@@ -11,9 +11,9 @@ setup(
     author="Patrick Saunders and Rick Valenzuela",
     author_email="patrick.a.n.saunders@gmail.com",
     license="MIT",
-    py_modules=['step1','client'],
+    py_modules=['step1', 'client'],
     package_dir={'': 'src'},
-    install_requires=[''],
+    install_requires=['gevent'],
     extras_require={'test': ['pytest', 'pytest-watch', 'pytest-cov', 'tox']},
     entry_points={
         'console_scripts': [

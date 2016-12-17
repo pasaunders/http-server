@@ -6,7 +6,7 @@ import socket
 def client(message):
     """Send message to server and get reply."""
     send_msg = message + '\r\n\r\n'
-    infos = socket.getaddrinfo('127.0.0.1', 5354)
+    infos = socket.getaddrinfo('127.0.0.1', 5678)
     stream_info = [i for i in infos if i[1] == socket.SOCK_STREAM][0]
     client = socket.socket(*stream_info[:3])
     client.connect(stream_info[-1])
@@ -24,4 +24,4 @@ def client(message):
 
 if __name__ == "__main__":
 
-    client('GET /webroot/make_time.py HTTP/1.1\r\nHost: www.example.com\r\n\r\nwords words words')
+    client('GET /webroot/images HTTP/1.1\r\nHost: www.example.com\r\n\r\nwords words words')
