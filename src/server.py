@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import socket
 import os
 
+
 def server():
     """Start a server at localhost:5354."""
     server = socket.socket(
@@ -17,7 +18,6 @@ def server():
 
     while True:
         conn, addr = server.accept()
-        try:
             total_message = ""
             buffer_length = 1024
             while total_message.count("\r\n\r\n") != 2:
@@ -36,8 +36,7 @@ def server():
             conn.sendall(reply.encode('utf8'))
             print('we sent response to client.')
             conn.close()
-        except KeyboardInterrupt:
-            break
+
     server.shutdown(2)
     server.close()
 
