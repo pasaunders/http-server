@@ -5,13 +5,13 @@ from setuptools import setup
 
 
 setup(
-    name="echo",
-    description="A project to build a basic echo server.",
+    name="step1",
+    description="A simple HTTP server.",
     version=0.1,
-    author="Patrick & Rick",
+    author="Patrick Saunders and Rick Valenzuela",
     author_email="patrick.a.n.saunders@gmail.com",
     license="MIT",
-    py_modules=['client', 'server'],
+    py_modules=['step1','client'],
     package_dir={'': 'src'},
     install_requires=[''],
     extras_require={'test': ['pytest', 'pytest-watch', 'pytest-cov', 'tox']},
