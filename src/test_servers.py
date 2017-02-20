@@ -45,7 +45,7 @@ def test_unicode():
     """Test if a string of unicode characters returns message."""
     from client import client
     response = client(u'©2017 Pat and Rick')
-    assert response == 'HTTP/1.1 200 OK\r\n\r\n©2017 Pat and Rick'
+    assert response == 'HTTP/1.1 200 OK\r\n\r\n'
 
 
 def test_final():
@@ -53,4 +53,4 @@ def test_final():
     from client import client
     response = client('these are words')
     print('response: ', response)
-    assert response == 'HTTP/1.1 200 OK\r\n\r\nthese are words'
+    assert response == 'HTTP/1.1 200 OK\r\n\r\n'
