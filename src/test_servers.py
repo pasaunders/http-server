@@ -3,30 +3,6 @@
 
 import pytest
 
-# def test_one():
-#     """Test if a string of less than one buffer echoes."""
-#     from client import client
-#     assert client(u'less') == u'less'
-
-
-# def test_multiple():
-#     """Test if a string of multiple buffer lengths echoes."""
-#     from client import client
-#     lots_of_words = u'this long string uses multiple buffer lengths'
-#     assert client(lots_of_words) == lots_of_words
-
-
-# def test_exact():
-#     """Test if a string that is an exact multiple of buffer length echoes."""
-#     from client import client
-#     assert client(u'exactlyoneexactly') == u'exactlyoneexactly'
-
-
-# def test_nonascii():
-#     """Test if a string of non-ascii characters echoes."""
-#     from client import client
-#     assert client(u'') == u''
-
 PARAMS_TABLE = [
     ['GET /webroot/sample.txt HTTP/1.1\r\nHost www.example.com\r\n\r\n', 'HTTP/1.1 200 OK\r\n\r\nThis is a very simple text file.\nJust to show that we can serve it up.\nIt is three lines long.\n'],
     ['GET /webroot/images HTTP/1.1\r\nHost www.example.com\r\n\r\n', 'HTTP/1.1 200 OK\r\n\r\n<html><a href="sample_1.png"><a href="Sample_Scene_Balls.jpg"><a href="JPEG_example.jpg"></html>'],
