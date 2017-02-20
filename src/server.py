@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Set up a simple HTTP server."""
 
 from __future__ import unicode_literals
@@ -18,24 +19,24 @@ def server():
 
     while True:
         conn, addr = server.accept()
-            total_message = ""
-            buffer_length = 1024
-            while total_message.count("\r\n\r\n") != 2:
-                print(total_message)
-                part = conn.recv(buffer_length)
-                total_message += part.decode('utf8')
-            print('Total message: ', total_message)
-            parsed = parse_request(total_message)
-            print(parsed)
-            status_message = parsed[0]
-            print(status_message)
-            if len(parsed) > 1:
-                reply = status_message + parsed[1]
-            else:
-                reply = status_message
-            conn.sendall(reply.encode('utf8'))
-            print('we sent response to client.')
-            conn.close()
+        total_message = ""
+        buffer_length = 20
+        while total_message.count("\r\n\r\n") != 2:
+            print(total_message)
+            part = conn.recv(buffer_length)
+            total_message += part.decode('utf8')
+        print('Total message: ', total_message)
+        parsed = parse_request(total_message)
+        print(parsed)
+        status_message = parsed[0]
+        print(status_message)
+        if len(parsed) > 1:
+            reply = status_message + parsed[1]
+        else:
+            reply = status_message
+        conn.sendall(reply.encode('utf8'))
+        print('we sent response to client.')
+        conn.close()
 
     server.shutdown(2)
     server.close()
@@ -96,6 +97,7 @@ def resolve_uri(uri):
 
 
 def return_webpage(file_list):
+    """Return webpage html to client."""
     links = ''
     for entry in file_list:
         links += '<a href="' + entry + '">'

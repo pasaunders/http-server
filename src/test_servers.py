@@ -1,5 +1,5 @@
-"""Test client and response server."""
 # encoding:utf-8
+"""Test client and response server."""
 
 import pytest
 
@@ -28,8 +28,9 @@ import pytest
 #     assert client(u'') == u''
 
 PARAMS_TABLE = [
-    ['GET /webroot/sample.txt HTTP/1.1\r\nHost www.example.com\r\n\r\n', b'This is a very simple text file.\nJust to show that we can serve it up.\nIt is three lines long.'],
-    ['GET /webroot/images HTTP/1.1\r\nHost www.example.com\r\n\r\n', b'HTTP/1.1 200 OK\r\n\r\n<html><a href="JPEG_example.jpg"><a href="sample_1.png"><a href="Sample_Scene_Balls.jpg"></html>'],
+    ['GET /webroot/sample.txt HTTP/1.1\r\nHost www.example.com\r\n\r\n', 'HTTP/1.1 200 OK\r\n\r\nThis is a very simple text file.\nJust to show that we can serve it up.\nIt is three lines long.\n'],
+    ['GET /webroot/images HTTP/1.1\r\nHost www.example.com\r\n\r\n', 'HTTP/1.1 200 OK\r\n\r\n<html><a href="sample_1.png"><a href="Sample_Scene_Balls.jpg"><a href="JPEG_example.jpg"></html>'],
+    ['PUT /path/to/index.html HTTP/1.1\r\nHost: www.example.com\r\n\r\n', 'HTTP/1.1 500 Internal Server Error\r\n'],
 ]
 
 
@@ -50,13 +51,7 @@ def test_final():
     from client import client
     response = client('GET /webroot/sample.txt HTTP/1.1\r\nHost www.example.com\r\n\r\n')
     print('response: ', response)
-    assert response == b'HTTP/1.1 200 OK\r\n\r\n'
-
-
-def test_sending_put_fails():
-    """Test that server doesn't take PUT request."""
-    from client import client
-    assert client() == "HTTP/1.1 500 Internal Server Error\r\n"
+    assert response == 'HTTP/1.1 200 OK\r\n\r\nThis is a very simple text file.\nJust to show that we can serve it up.\nIt is three lines long.\n'
 
 
 @pytest.mark.parametrize("given, expected", PARAMS_TABLE)
