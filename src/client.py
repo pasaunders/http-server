@@ -1,10 +1,14 @@
 """Create a client to interact with a server at localhost:5353."""
 
 import socket
+import sys
 
 
 def client(message):
     """Send message to server and get reply."""
+    if sys.version_info[0] == 2:
+        message = message.encode('utf8')
+
     header = 'GET /index.html HTTP/1.1\r\nHost: www.example.com\r\n\r\n'
     send_msg = header + message + '\r\n\r\n'
     infos = socket.getaddrinfo('127.0.0.1', 5353)
@@ -17,8 +21,13 @@ def client(message):
     reply_complete = False
     while not reply_complete:
         part = client.recv(buffer_length)
-        reply += (part.decode('utf8'))
+        reply += part.decode('utf8')
         if len(part) < buffer_length:
             break
-    return reply
     client.close()
+    print(reply)
+    return reply
+
+
+if __name__ == "__main__":
+    client("placeholder arg")

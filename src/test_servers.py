@@ -1,5 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Test client and response server."""
 
+from __future__ import unicode_literals
 
 # def test_one():
 #     """Test if a string of less than one buffer echoes."""
@@ -36,6 +39,13 @@ def test_error():
     """Test that the server retruns 500 on error."""
     from server import response_error
     assert response_error() == 'HTTP/1.1 500 Internal Server Error\r\n'
+
+
+def test_unicode():
+    """Test if a string of unicode characters returns message."""
+    from client import client
+    response = client(u'©2017 Pat and Rick')
+    assert response == 'HTTP/1.1 200 OK\r\n\r\n©2017 Pat and Rick'
 
 
 def test_final():

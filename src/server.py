@@ -1,5 +1,6 @@
 """Set up a simple HTTP server."""
 
+from __future__ import unicode_literals
 import socket
 
 
@@ -30,9 +31,13 @@ def server():
                 conn.sendall(final_message.encode('utf8'))
             except:
                 conn.sendall(response_error().encode('utf8'))
+                total_message += part
+            conn.sendall(total_message)
         except KeyboardInterrupt:
             break
-    conn.close()
+        conn.close()
+    import pdb; pdb.set_trace()
+    server.shutdown(2)
     server.close()
 
 
@@ -46,4 +51,5 @@ def response_error():
     return "HTTP/1.1 500 Internal Server Error\r\n"
 
 
-server()
+if __name__ == "__main__":
+    server()
