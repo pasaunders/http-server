@@ -27,3 +27,9 @@ def test_nonascii():
     """Test if a string of non-ascii characters echoes."""
     from client import client
     assert client('ΞΞΞΞΞΞΞ') == 'ΞΞΞΞΞΞΞ'
+
+
+def test_unicode():
+    """Test if a string of unicode characters echoes."""
+    from client import client
+    assert client(u'©2017 Pat and Rick') == u"©2017 Pat and Rick"
