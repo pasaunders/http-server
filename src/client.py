@@ -23,5 +23,10 @@ def client(message):
         reply += (part.decode('utf8'))
         if len(part) < buffer_length:
             break
+    print(reply[:-3])
     return reply[:-3]
     client.close()
+
+
+if __name__ == "__main__":
+    client("placeholder arg")
