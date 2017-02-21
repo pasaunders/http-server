@@ -5,7 +5,7 @@ import pytest
 
 PARAMS_TABLE = [
     ['GET /webroot/sample.txt HTTP/1.1\r\nHost www.example.com\r\n\r\n', 'HTTP/1.1 200 OK\r\n\r\nThis is a very simple text file.\nJust to show that we can serve it up.\nIt is three lines long.\n'],
-    ['GET /webroot/images HTTP/1.1\r\nHost www.example.com\r\n\r\n', 'HTTP/1.1 200 OK\r\n\r\n<html><a href="sample_1.png"><a href="Sample_Scene_Balls.jpg"><a href="JPEG_example.jpg"></html>'],
+    ['GET /webroot/images HTTP/1.1\r\nHost www.example.com\r\n\r\n', 'HTTP/1.1 200 OK\r\n\r\n<html><a href="JPEG_example.jpg"><a href="sample_1.png"><a href="Sample_Scene_Balls.jpg"></html>'],
     ['PUT /path/to/index.html HTTP/1.1\r\nHost: www.example.com\r\n\r\n', 'HTTP/1.1 500 Internal Server Error\r\n'],
 ]
 
