@@ -22,6 +22,7 @@ def server(socket, address):
         reply = status_message
     socket.sendall(reply.encode('utf8'))
     print('we sent response to client.')
+    socket.shutdown(1)
     socket.close()
 
 
