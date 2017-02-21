@@ -18,9 +18,22 @@ def server():
         conn, addr = server.accept()
 
         try:
-            message = ""
-            buffer_length = 10
-            while message[-3:] != 'EOF':
+            message = b""
+            buffer_length = 1024
+            start = conn.recv(buffer_length)
+            message_length = ""
+            count = 0
+            while True:
+                if start[count] == '.':
+                    break
+                message_length += start[count]
+                count += 1
+                if count == buffer_length:
+                    count = 0
+                    start = conn.recv(buffer_length)
+            message += start[count + 1:]
+            message_length = int(message_length)
+            while len(message) < message_length:
                 part = conn.recv(buffer_length)
                 message += part
             conn.sendall(message)
