@@ -1,6 +1,7 @@
 """Set up a simple HTTP server."""
 
 from __future__ import unicode_literals
+import socket
 import os
 
 

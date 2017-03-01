@@ -32,10 +32,14 @@ def test_final():
 
 
 def test_concurrency_with_heavy_file_light_file():
-    """Test that concurrency works by two clients requesting."""
+    """Test that concurrency works by one client requesting a 16MB file
+    and other clients subsequndtly requesting other resoureces.
+    """
     response1 = client('GET /webroot/pg3200.txt HTTP/1.1\r\nHost www.example.com\r\n\r\n')
     response2 = client('GET /webroot/sample.txt HTTP/1.1\r\nHost www.example.com\r\n\r\n')
+    response3 = client('GET /webroot/images HTTP/1.1\r\nHost www.example.com\r\n\r\n')
     assert response2 == 'HTTP/1.1 200 OK\r\n\r\nThis is a very simple text file.\nJust to show that we can serve it up.\nIt is three lines long.\n'
+
 
 @pytest.mark.parametrize("given, expected", PARAMS_TABLE)
 def test_requested_file_returns(given, expected):
