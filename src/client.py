@@ -32,8 +32,8 @@ def client(message):
         if len(part) < buffer_length:
             break
     print(reply)
-    return reply
     client.close()
+    return reply
 
 
 if __name__ == "__main__":
